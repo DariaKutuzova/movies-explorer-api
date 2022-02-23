@@ -31,12 +31,12 @@ const deleteMovie = (request, response, next) => {
 const createMovie = (request, response, next) => {
   // eslint-disable-next-line func-names
   const {
-    country, director, duration, year, description, image, trailerLink, nameRU, nameEN, thumbnail,
+    country, director, duration, year, description, image, trailerLink, nameRU, nameEN, thumbnail, movieId,
   } = request.body;
   console.log(request.body);
+  // eslint-disable-next-line func-names
   Movie.create({
-    // eslint-disable-next-line func-names
-    country, director, duration, year, description, image, trailerLink, nameRU, nameEN, thumbnail, owner: request.user._id,
+    country, director, duration, year, description, image, trailerLink, nameRU, nameEN, thumbnail, movieId, owner: request.user._id,
   })
     .then((movie) => response.send({ data: movie }))
     .catch((err) => {
