@@ -8,11 +8,11 @@ https://api.movies.kd.nomoredomains.work
  - Express
  - MongoDB
 ## Директории
-/models – папка со схемами и моделями пользователя и карточки
-/routes — папка с файлами роутера
-/errors – папка с модулями ошибок
-/controllers – папка с контроллерами
-/middlewares – папка с мидлварами
+/models – папка со схемами и моделями пользователя и карточки  
+/routes — папка с файлами роутера  
+/errors – папка с модулями ошибок  
+/controllers – папка с контроллерами  
+/middlewares – папка с мидлварами  
 ## Запуск проекта
 ### Для запуска проекта:
 
@@ -27,11 +27,11 @@ POST http://localhost:3000/signup
 
 В теле запроса передать объект вида
 
-{
-"email": "example@example.com",
-"password": "password",
-"name": "Имя"
-}
+{  
+"email": "example@example.com",  
+"password": "password",  
+"name": "Имя"  
+}  
 ✔️ При успехе в ответе приходит объект пользователя со статусом 201.
 
 ❌ При попытке создать пользователя с уже существующей в базе почтой приходит ответ со статусом 400 и сообщением Пользователь с таким email уже зарегистрирован.
@@ -43,10 +43,10 @@ POST http://localhost:3000/signin
 
 В теле запроса передать объект вида
 
-{
-"email": "example@example.com",
-"password": "password"
-}
+{  
+"email": "example@example.com",  
+"password": "password"  
+}  
 ✔️ При успехе приходит ответ c токеном.
 
 ❌ При неправильных почте и/или пароле приходит ответ со статусом 401 и сообщением Неправильные email или пароль.
@@ -56,10 +56,10 @@ PATCH http://localhost:3000/users/me
 
 В теле запроса передать объект вида
 
-{
-"name": "Имя",
-"email": "example@example.com",
-}
+{  
+"name": "Имя",  
+"email": "example@example.com",  
+}  
 ✔️ При успехе в ответе приходит обновлённый объект пользователя со статусом 200.
 
 ❌ При попытке создать пользователя с некорректными данными приходит ответ со статусом 400 и ошибкой валидации.
@@ -70,24 +70,24 @@ POST http://localhost:3000/movies
 В теле запроса передать объект вида
 
 {
-"country": "some string",
-"director": "some string",
-"duration": some number,
-"year":"some string",
-"description":"some string",
-"image":"https://link.html",
-"trailerLink":"https://link.html",
-"nameRU":"some string",
-"nameEN":"some string",
-"thumbnail": "https://link.html",
-"movieId": "6216545b9a038b02fc9359fe"
-}
+"country": "some string",  
+"director": "some string",  
+"duration": some number,  
+"year":"some string",  
+"description":"some string",  
+"image":"https://link.html",  
+"trailerLink":"https://link.html",  
+"nameRU":"some string",  
+"nameEN":"some string",  
+"thumbnail": "https://link.html",  
+"movieId": "6216545b9a038b02fc9359fe"  
+}  
 ✔️ При успехе в ответе приходит объект карточки со статусом 201.
 
 ❌ При попытке создать карточку с некорректными данными приходит ответ со статусом 400 и ошибкой валидации.
 
 ### Удаление фильма
-DELETE http://localhost:3000/movies/:id
+DELETE http://localhost:3000/movies/:id  
 
 ✔️ При успехе в ответе приходит обновлённый объект карточки со статусом 200.
 
