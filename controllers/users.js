@@ -7,35 +7,6 @@ const ConflictError = require('../errors/ConflictError');
 
 const { JWT_SECRET, NODE_ENV } = process.env;
 
-// const getUsers = (request, response, next) => User
-//   .find({})
-//   .then((users) => response.status(200).send(users))
-//   .catch((err) => {
-//     if (err.name === 'CastError') {
-//       throw new BadRequestError('Переданы некорректные данные');
-//     }
-//   })
-//   .catch(next);
-//
-// const getUser = (request, response, next) => {
-//   const { userId } = request.params;
-//
-//   return User
-//     .findById(userId)
-//     .then((user) => {
-//       if (!user) {
-//         throw new NotFoundError('Нет пользователя с таким id');
-//       }
-//       return response.status(200).send(user);
-//     })
-//     .catch((err) => {
-//       console.log(err.name);
-//       if (err.name === 'CastError') {
-//         next(new BadRequestError('Переданы некорректные данные'));
-//       } else next(err);
-//     });
-// };
-
 const getUserMe = (request, response, next) => {
   const owner = request.user._id;
 
@@ -105,27 +76,6 @@ const patchUser = (request, response, next) => {
     .catch(next);
 };
 
-// const patchAvatar = (request, response, next) => {
-//   const { avatar } = request.body;
-//
-//   return User.findByIdAndUpdate(request.user._id, { avatar }, { new: true, runValidators: true })
-//     .then((user) => {
-//       if (!user) {
-//         throw new NotFoundError('Нет пользователя с таким id');
-//       }
-//       return response.status(200).send(user);
-//     })
-//     .catch((err) => {
-//       if (err.name === 'ValidationError' || err.name === 'CastError') {
-//         next(new BadRequestError(`${Object.values(err.errors)
-//         .map((error) => error.message).join(', ')}`));
-//       } else if (err.message === 'NotFound') {
-//         next(new NotFoundError('Нет пользователя с таким id'));
-//       }
-//     })
-//     .catch(next);
-// };
-
 const login = (req, res, next) => {
   const { email, password } = req.body;
 
@@ -151,11 +101,8 @@ const login = (req, res, next) => {
 };
 
 module.exports = {
-  // getUsers,
-  // getUser,
   createUser,
   patchUser,
-  // patchAvatar,
   login,
   getUserMe,
 };

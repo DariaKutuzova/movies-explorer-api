@@ -1,7 +1,6 @@
 const { celebrate, Joi } = require('celebrate');
 const validator = require('validator');
 const BadRequestError = require("../errors/BadRequestError");
-// const mongoose = require("mongoose");
 
 const validationUrl = (value) => {
   if (!validator.isURL(value, { require_protocol: true })) {
@@ -16,12 +15,6 @@ const validationUpdateUser = celebrate({
     email: Joi.string().required().email(),
   }),
 });
-
-// const validationIdUser = celebrate({
-//   params: Joi.object().keys({
-//     userId: Joi.string().alphanum().length(24),
-//   }),
-// });
 
 const validationIdMovie = celebrate({
   params: Joi.object().keys({
@@ -60,17 +53,11 @@ const validationMovie = celebrate({
   }),
 });
 
-// function validationLink(v) {
-//   return /^(https?:\/\/)?(www.)?[a-zA-Z0-9\-.]+\.[a-zA-Z]{2,3}(\/\S*)?$/.test(v);
-// }
-
 module.exports = {
   validationLogin,
   validationUser,
-  // validationIdUser,
   validationIdMovie,
   validationUpdateUser,
   validationMovie,
-  // validationLink,
   validationUrl,
 };

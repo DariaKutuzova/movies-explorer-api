@@ -46,50 +46,8 @@ const createMovie = (request, response, next) => {
     });
 };
 
-// const setLike = (request, response, next) => {
-//   Card.findByIdAndUpdate(
-//     request.params.cardId,
-//     { $addToSet: { likes: request.user._id } }, // добавить _id в массив, если его там нет
-//     { new: true },
-//   )
-//     .then((card) => {
-//       if (!card) {
-//         next(new NotFoundError('Карточка не найдена'));
-//       }
-//       return response.status(200).send(card);
-//     })
-//     .catch((err) => {
-//       if (err.name === 'CastError') {
-//         next(new BadRequestError(`${Object.values(err.errors)
-//         .map((error) => error.message).join(', ')}`));
-//       } else if (err.message === 'NotFound') {
-//         next(new NotFoundError('Передан несуществующий _id карточки.'));
-//       } else next(err);
-//     });
-// };
-//
-// const deleteLike = (request, response, next) => {
-//   console.log(request.user);
-//
-//   Card.findByIdAndUpdate(
-//     request.params.cardId,
-//     { $pull: { likes: request.user._id } }, // убрать _id из массива
-//     { new: true },
-//   )
-//     .orFail(() => new NotFoundError('Карточка не найдена'))
-//     .then((card) => response.status(200).send(card))
-//     .catch((err) => {
-//       if (err.name === 'CastError') {
-//         next(new BadRequestError(`${Object.values(err.errors)
-//         .map((error) => error.message).join(', ')}`));
-//       } else next(err);
-//     });
-// };
-
 module.exports = {
   getMovies,
   deleteMovie,
   createMovie,
-  // setLike,
-  // deleteLike,
 };
