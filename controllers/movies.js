@@ -1,38 +1,38 @@
-const Card = require('../models/movie');
+const Movie = require('../models/movie');
 const NotFoundError = require('../errors/NotFoundError');
 const BadRequestError = require('../errors/BadRequestError');
 const ForbiddenError = require('../errors/ForbiddenError');
 
-const getMovies = (request, response, next) => Card
+const getMovies = (request, response, next) => Movie
   .find({})
   .populate('owner')
-  .then((cards) => response.status(200).send(cards))
+  .then((movies) => response.status(200).send(movies))
   .catch((err) => {
     if (err.name === 'CastError') {
       next(new BadRequestError(`${Object.values(err.errors).map((error) => error.message).join(', ')}`));
     } else next(err);
   });
 
-const deleteMovies = (request, response, next) => {
-  Card.findById(request.params.cardId)
+const deleteMovie = (request, response, next) => {
+  Movie.findById(request.params.movieId)
     .orFail(new NotFoundError(`Карточки не существует`))
-    .then((card) => {
+    .then((movie) => {
       // мб это не нужно, посмотреть удалить
-      if (card.owner.toString() !== request.user._id) {
+      if (movie.owner.toString() !== request.user._id) {
         next(new ForbiddenError('Недостаточно прав для выполнения операции'));
       }
-      Card.findByIdAndDelete(request.params.cardId)
-        .then(() => response.status(200).send(card))
+      Movie.findByIdAndDelete(request.params.movieId)
+        .then(() => response.status(200).send(movie))
         .catch(next);
     })
     .catch(next);
 };
 
-const createMovies = (request, response, next) => {
-  const { name, link } = request.body;
+const createMovie = (request, response, next) => {
+  const { country, director, duration, year, description, image, trailerLink, nameRU, nameEN, thumbnail } = request.body;
   console.log(request.body);
-  Card.create({ name, link, owner: request.user._id })
-    .then((card) => response.send({ data: card }))
+  Movie.create({ country, director, duration, year, description, image, trailerLink, nameRU, nameEN, thumbnail, owner: request.user._id })
+    .then((movie) => response.send({ data: movie }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new BadRequestError(`${Object.values(err.errors).map((error) => error.message).join(', ')}`));
@@ -82,8 +82,8 @@ const createMovies = (request, response, next) => {
 
 module.exports = {
   getMovies,
-  deleteMovies,
-  createMovies,
+  deleteMovie,
+  createMovie,
   // setLike,
   // deleteLike,
 };

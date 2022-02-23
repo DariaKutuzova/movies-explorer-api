@@ -1,9 +1,9 @@
-// const bcrypt = require('bcryptjs');
-// const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const NotFoundError = require('../errors/NotFoundError');
 const BadRequestError = require('../errors/BadRequestError');
-// const ConflictError = require('../errors/ConflictError');
+const ConflictError = require('../errors/ConflictError');
 
 // const getUsers = (request, response, next) => User
 //   .find({})
@@ -53,36 +53,31 @@ const getUserMe = (request, response, next) => {
     });
 };
 
-// const createUser = (request, response, next) => {
-//   const {
-//     name, about, avatar, email, password,
-//   } = request.body;
-//
-//   bcrypt.hash(password, 10)
-//     .then((hash) => User.create({
-//       name,
-//       about,
-//       avatar,
-//       email,
-//       password: hash, // записываем хеш в базу
-//     }))
-//     .then((user) => response.send({
-//       _id: user._id,
-//       name,
-//       about,
-//       avatar,
-//       email,
-//     }))
-//     .catch((err) => {
-//       if (err.name === 'ValidationError') {
-//         next(new BadRequestError(`${Object.values(err.errors)
-//         .map((error) => error.message).join(', ')}`));
-//       } else if (err.code === 11000) {
-//         next(new ConflictError(`Пользователь с данным email уже существует`));
-//       }
-//     })
-//     .catch(next);
-// };
+const createUser = (request, response, next) => {
+  const {
+    name, email, password,
+  } = request.body;
+
+  bcrypt.hash(password, 10)
+    .then((hash) => User.create({
+      name,
+      email,
+      password: hash, // записываем хеш в базу
+    }))
+    .then((user) => response.send({
+      _id: user._id,
+      name,
+      email,
+    }))
+    .catch((err) => {
+      if (err.name === 'ValidationError') {
+        next(new BadRequestError(`${Object.values(err.errors).map((error) => error.message).join(', ')}`));
+      } else if (err.code === 11000) {
+        next(new ConflictError(`Пользователь с данным email уже существует`));
+      }
+    })
+    .catch(next);
+};
 
 const patchUser = (request, response, next) => {
   const { name, about } = request.body;
@@ -129,35 +124,35 @@ const patchUser = (request, response, next) => {
 //     .catch(next);
 // };
 
-// const login = (req, res, next) => {
-//   const { email, password } = req.body;
-//
-//   return User.findUserByCredentials(email, password)
-//     .then((user) => {
-//       // создадим токен
-//       const token = jwt.sign(
-//         { _id: user._id },
-//         'some-secret-key',
-//         { expiresIn: '7d' },
-//       );
-//       // вернём токен
-//       res
-//         .cookie('jwt', token, {
-//           maxAge: 3600000 * 24 * 7,
-//           httpOnly: true,
-//           sameSite: true,
-//         })
-//         .send({ message: 'Успешная авторизация' });
-//     })
-//     .catch(next);
-// };
+const login = (req, res, next) => {
+  const { email, password } = req.body;
+
+  return User.findUserByCredentials(email, password)
+    .then((user) => {
+      // создадим токен
+      const token = jwt.sign(
+        { _id: user._id },
+        'some-secret-key',
+        { expiresIn: '7d' },
+      );
+      // вернём токен
+      res
+        .cookie('jwt', token, {
+          maxAge: 3600000 * 24 * 7,
+          httpOnly: true,
+          sameSite: true,
+        })
+        .send({ message: 'Успешная авторизация' });
+    })
+    .catch(next);
+};
 
 module.exports = {
   // getUsers,
   // getUser,
-  // createUser,
+  createUser,
   patchUser,
   // patchAvatar,
-  // login,
+  login,
   getUserMe,
 };

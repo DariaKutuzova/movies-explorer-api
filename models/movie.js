@@ -73,12 +73,12 @@ const movieSchema = new mongoose.Schema({
     ref: 'user',
     required: true,
   },
-  movieId: {
-    type: mongoose.Schema.Types.ObjectId,
-    //  id подправить, когда будет серв с фильмами
-    ref: 'movie',
-    required: true,
-  },
+  //  id подправить, когда будет серв с фильмами
+  // movieId: {
+  //   type: mongoose.Schema.Types.ObjectId,
+  //   ref: 'movie',
+  //   required: true,
+  // },
 });
 
 module.exports = mongoose.model('movie', movieSchema);
