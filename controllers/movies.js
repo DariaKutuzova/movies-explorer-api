@@ -29,9 +29,15 @@ const deleteMovie = (request, response, next) => {
 };
 
 const createMovie = (request, response, next) => {
-  const { country, director, duration, year, description, image, trailerLink, nameRU, nameEN, thumbnail } = request.body;
+  // eslint-disable-next-line func-names
+  const {
+    country, director, duration, year, description, image, trailerLink, nameRU, nameEN, thumbnail,
+  } = request.body;
   console.log(request.body);
-  Movie.create({ country, director, duration, year, description, image, trailerLink, nameRU, nameEN, thumbnail, owner: request.user._id })
+  Movie.create({
+    // eslint-disable-next-line func-names
+    country, director, duration, year, description, image, trailerLink, nameRU, nameEN, thumbnail, owner: request.user._id,
+  })
     .then((movie) => response.send({ data: movie }))
     .catch((err) => {
       if (err.name === 'ValidationError') {

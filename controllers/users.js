@@ -5,6 +5,8 @@ const NotFoundError = require('../errors/NotFoundError');
 const BadRequestError = require('../errors/BadRequestError');
 const ConflictError = require('../errors/ConflictError');
 
+const { JWT_SECRET, NODE_ENV } = process.env;
+
 // const getUsers = (request, response, next) => User
 //   .find({})
 //   .then((users) => response.status(200).send(users))
@@ -131,18 +133,19 @@ const login = (req, res, next) => {
     .then((user) => {
       // создадим токен
       const token = jwt.sign(
-        { _id: user._id },
-        'some-secret-key',
+        {
+          _id: user._id,
+          email: user.email,
+          name: user.name,
+          about: user.about,
+          avatar: user.avatar,
+        },
+        NODE_ENV === 'production' ? JWT_SECRET : 'some-secret-key',
         { expiresIn: '7d' },
       );
       // вернём токен
       res
-        .cookie('jwt', token, {
-          maxAge: 3600000 * 24 * 7,
-          httpOnly: true,
-          sameSite: true,
-        })
-        .send({ message: 'Успешная авторизация' });
+        .send({ token });
     })
     .catch(next);
 };
