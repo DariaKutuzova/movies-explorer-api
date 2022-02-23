@@ -5,7 +5,7 @@ const {
   getMovies,
   deleteMovie,
   createMovie,
-} = require('../controllers/cards');
+} = require('../controllers/movies');
 
 router.get('/', getMovies);
 router.post('/', validationMovie, createMovie);
