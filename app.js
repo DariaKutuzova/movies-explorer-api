@@ -5,24 +5,16 @@ const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const { errors } = require('celebrate');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
-// const { login, createUser } = require('./controllers/users');
-const auth = require('./middlewares/auth');
 const errorHandler = require('./middlewares/error-handler');
 const NotFoundError = require("./errors/NotFoundError");
-// const {
-//   validationLogin,
-//   validationUser,
-// } = require('./middlewares/validation');
 
-const { PORT = 3000 } = process.env;
+const { PORT = 3000, DB, NODE_ENV } = process.env;
 
 const app = express();
-mongoose.connect('mongodb://localhost:27017/bitfilmsdb', {
+mongoose.connect(NODE_ENV === 'production' ? DB : 'mongodb://localhost:27017/bitfilmsdb', {
   useNewUrlParser: true,
   useCreateIndex: true,
   useFindAndModify: false,
-}, (err) => {
-  if (err) { console.log(err); }
 });
 
 app.use(bodyParser.json());
@@ -31,19 +23,15 @@ app.use(cookieParser());
 
 app.use(requestLogger);
 
-app.use(require('./routes/sign'));
-
-app.use(auth);
-app.use(require('./routes/users'));
-app.use(require('./routes/movies'));
-
-app.use(errorLogger);
-
-app.use(errors());
+app.use(require('./routes/index'));
 
 app.use((res, req, next) => {
   next(new NotFoundError('Страницы не существует'));
 });
+
+app.use(errorLogger);
+
+app.use(errors());
 
 app.use(errorHandler);
 

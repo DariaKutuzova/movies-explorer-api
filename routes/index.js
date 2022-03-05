@@ -1,10 +1,13 @@
 const router = require('express').Router();
-const usersRouter = require('./users');
-const moviesRouter = require('./movies');
 const NotFoundError = require("../errors/NotFoundError");
+const auth = require("../middlewares/auth");
 
-router.use('/users', usersRouter);
-router.use('/movies', moviesRouter);
+router.use(require('./sign'));
+
+router.use(auth);
+router.use(require('./users'));
+router.use(require('./movies'));
+
 router.use((res, req, next) => {
   next(new NotFoundError('Страницы не существует'));
 });

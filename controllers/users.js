@@ -16,14 +16,9 @@ const getUserMe = (request, response, next) => {
       if (!user) {
         throw new NotFoundError('Нет пользователя с таким id');
       }
-      return response.status(200).send(user);
+      return response.send(user);
     })
-    .catch((err) => {
-      console.log(err.name);
-      if (err.name === 'CastError') {
-        next(new BadRequestError('Переданы некорректные данные'));
-      } else next(err);
-    });
+    .catch(next);
 };
 
 const createUser = (request, response, next) => {
@@ -47,7 +42,7 @@ const createUser = (request, response, next) => {
         next(new BadRequestError(`${Object.values(err.errors).map((error) => error.message).join(', ')}`));
       } else if (err.code === 11000) {
         next(new ConflictError(`Пользователь с данным email уже существует`));
-      }
+      } else next(err);
     })
     .catch(next);
 };
@@ -64,14 +59,14 @@ const patchUser = (request, response, next) => {
       if (!user) {
         throw new NotFoundError('Нет пользователя с таким id');
       }
-      return response.status(200).send(user);
+      return response.send(user);
     })
     .catch((err) => {
       if (err.name === 'ValidationError' || err.name === 'CastError') {
         next(new BadRequestError(`${Object.values(err.errors).map((error) => error.message).join(', ')}`));
-      } else if (err.message === 'NotFound') {
-        next(new NotFoundError('Нет пользователя с таким id'));
-      }
+      } else if (err.code === 11000) {
+        next(new ConflictError('Пользователь с данным email уже существует'));
+      } else next(err);
     })
     .catch(next);
 };

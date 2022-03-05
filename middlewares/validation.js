@@ -18,13 +18,13 @@ const validationUpdateUser = celebrate({
 
 const validationIdMovie = celebrate({
   params: Joi.object().keys({
-    movieId: Joi.number().integer().required(),
+    id: Joi.string().required().hex().length(24),
   }),
 });
 
 const validationUser = celebrate({
   body: Joi.object().keys({
-    name: Joi.string().min(2).max(30),
+    name: Joi.string().min(2).max(30).required(),
     email: Joi.string().required().email(),
     password: Joi.string().required().min(8),
   }),
@@ -39,13 +39,13 @@ const validationLogin = celebrate({
 
 const validationMovie = celebrate({
   body: Joi.object().keys({
-    nameRU: Joi.string().min(2).max(30),
-    nameEN: Joi.string().min(2).max(30),
-    country: Joi.string().min(2).max(30),
-    director: Joi.string().min(2).max(30),
-    duration: Joi.number(),
-    year: Joi.string().min(2).max(30),
-    description: Joi.string().min(2).max(200),
+    nameRU: Joi.string().min(2).max(30).required(),
+    nameEN: Joi.string().min(2).max(30).required(),
+    country: Joi.string().min(2).max(30).required(),
+    director: Joi.string().min(2).max(30).required(),
+    duration: Joi.number().required(),
+    year: Joi.string().min(2).max(30).required(),
+    description: Joi.string().min(2).max(200).required(),
     image: Joi.string().required().custom(validationUrl),
     trailerLink: Joi.string().required().custom(validationUrl),
     thumbnail: Joi.string().required().custom(validationUrl),

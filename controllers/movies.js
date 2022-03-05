@@ -6,24 +6,19 @@ const ForbiddenError = require('../errors/ForbiddenError');
 const getMovies = (request, response, next) => Movie
   .find({})
   .populate('owner')
-  .then((movies) => response.status(200).send(movies))
-  .catch((err) => {
-    if (err.name === 'CastError') {
-      next(new BadRequestError(`${Object.values(err.errors).map((error) => error.message).join(', ')}`));
-    } else next(err);
-  });
+  .then((movies) => response.send(movies))
+  .catch(next);
 
 const deleteMovie = (request, response, next) => {
-  Movie.findById(request.params.movieId)
+  Movie.findById(request.params.id)
     .orFail(new NotFoundError(`Карточки не существует`))
     .then((movie) => {
-      // мб это не нужно, посмотреть удалить
-      if (movie.owner.toString() !== request.user._id) {
-        next(new ForbiddenError('Недостаточно прав для выполнения операции'));
+      if (movie.owner.toString() === request.user._id) {
+        return movie.remove()
+          .then(() => response.send(movie));
       }
-      Movie.findByIdAndDelete(request.params.movieId)
-        .then(() => response.status(200).send(movie))
-        .catch(next);
+
+      return next(new ForbiddenError('Недостаточно прав для выполнения операции'));
     })
     .catch(next);
 };
