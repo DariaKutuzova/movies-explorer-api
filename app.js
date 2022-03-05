@@ -8,7 +8,7 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 const errorHandler = require('./middlewares/error-handler');
 const NotFoundError = require("./errors/NotFoundError");
 
-const { PORT = 3000, DB, NODE_ENV } = process.env;
+const { PORT = 3000, DB = 'mongodb://localhost:27017/bitfilmsdb', NODE_ENV } = process.env;
 
 const app = express();
 mongoose.connect(NODE_ENV === 'production' ? DB : 'mongodb://localhost:27017/bitfilmsdb', {
