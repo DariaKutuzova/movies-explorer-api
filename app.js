@@ -5,14 +5,14 @@ const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const { errors } = require('celebrate');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
-const { login, createUser } = require('./controllers/users');
+// const { login, createUser } = require('./controllers/users');
 const auth = require('./middlewares/auth');
 const errorHandler = require('./middlewares/error-handler');
 const NotFoundError = require("./errors/NotFoundError");
-const {
-  validationLogin,
-  validationUser,
-} = require('./middlewares/validation');
+// const {
+//   validationLogin,
+//   validationUser,
+// } = require('./middlewares/validation');
 
 const { PORT = 3000 } = process.env;
 
@@ -31,11 +31,11 @@ app.use(cookieParser());
 
 app.use(requestLogger);
 
-app.post('/signin', validationLogin, login);
-app.post('/signup', validationUser, createUser);
+app.use(require('./routes/sign'));
+
 app.use(auth);
-app.use('/users', require('./routes/users'));
-app.use('/movies', require('./routes/movies'));
+app.use(require('./routes/users'));
+app.use(require('./routes/movies'));
 
 app.use(errorLogger);
 
