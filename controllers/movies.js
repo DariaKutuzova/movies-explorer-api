@@ -30,13 +30,32 @@ const deleteMovie = (request, response, next) => {
 
 const createMovie = (request, response, next) => {
   const {
-    // eslint-disable-next-line max-len
-    country, director, duration, year, description, image, trailerLink, nameRU, nameEN, thumbnail, movieId,
+    country,
+    director,
+    duration,
+    year,
+    description,
+    image,
+    trailerLink,
+    nameRU,
+    nameEN,
+    thumbnail,
+    movieId,
   } = request.body;
   console.log(request.body);
   Movie.create({
-    // eslint-disable-next-line max-len
-    country, director, duration, year, description, image, trailerLink, nameRU, nameEN, thumbnail, movieId, owner: request.user._id,
+    country,
+    director,
+    duration,
+    year,
+    description,
+    image,
+    trailerLink,
+    nameRU,
+    nameEN,
+    thumbnail,
+    movieId,
+    owner: request.user._id,
   })
     .then((movie) => response.send({ data: movie }))
     .catch((err) => {

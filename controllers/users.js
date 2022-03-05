@@ -53,11 +53,11 @@ const createUser = (request, response, next) => {
 };
 
 const patchUser = (request, response, next) => {
-  const { name, about } = request.body;
+  const { name, email } = request.body;
 
   return User.findByIdAndUpdate(
     request.user._id,
-    { name, about },
+    { name, email },
     { new: true, runValidators: true },
   )
     .then((user) => {

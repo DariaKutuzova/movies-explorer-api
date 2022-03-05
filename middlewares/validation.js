@@ -18,7 +18,7 @@ const validationUpdateUser = celebrate({
 
 const validationIdMovie = celebrate({
   params: Joi.object().keys({
-    movieId: Joi.string().alphanum().length(24),
+    movieId: Joi.number().integer().required(),
   }),
 });
 
@@ -49,7 +49,7 @@ const validationMovie = celebrate({
     image: Joi.string().required().custom(validationUrl),
     trailerLink: Joi.string().required().custom(validationUrl),
     thumbnail: Joi.string().required().custom(validationUrl),
-    movieId: Joi.string().alphanum().length(24),
+    movieId: Joi.number().integer().required(),
   }),
 });
 

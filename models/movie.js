@@ -75,7 +75,7 @@ const movieSchema = new mongoose.Schema({
   },
   //  id подправить, когда будет серв с фильмами
   movieId: {
-    type: String,
+    type: Number,
     required: true,
   },
 });
