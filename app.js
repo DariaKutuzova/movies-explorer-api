@@ -7,6 +7,7 @@ const { errors } = require('celebrate');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const errorHandler = require('./middlewares/error-handler');
 const NotFoundError = require("./errors/NotFoundError");
+const cors = require('./middlewares/cors');
 
 const { PORT = 3000, DB = 'mongodb://localhost:27017/bitfilmsdb', NODE_ENV } = process.env;
 
@@ -16,6 +17,10 @@ mongoose.connect(NODE_ENV === 'production' ? DB : 'mongodb://localhost:27017/bit
   useCreateIndex: true,
   useFindAndModify: false,
 });
+
+console.log(cors);
+
+app.use(cors);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
