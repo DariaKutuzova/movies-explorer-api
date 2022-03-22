@@ -4,7 +4,7 @@ const allowedCors = [
   'https://api.movies.kd.nomoredomains.work/',
   'http://api.movies.kd.nomoredomains.work/',
   'https://movies.kd.nomoredomains.work/',
-  'http://movies.kd.nomoredomains.work/'
+  'http://movies.kd.nomoredomains.work/',
 ];
 
 const cors = (req, res, next) => {
