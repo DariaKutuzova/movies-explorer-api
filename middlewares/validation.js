@@ -45,7 +45,7 @@ const validationMovie = celebrate({
     director: Joi.string().min(2).max(30).required(),
     duration: Joi.number().required(),
     year: Joi.string().min(2).max(30).required(),
-    description: Joi.string().min(2).max(200).required(),
+    description: Joi.string().min(2).max(1500).required(),
     image: Joi.string().required().custom(validationUrl),
     trailerLink: Joi.string().required().custom(validationUrl),
     thumbnail: Joi.string().required().custom(validationUrl),
