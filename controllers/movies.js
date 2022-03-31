@@ -4,7 +4,7 @@ const BadRequestError = require('../errors/BadRequestError');
 const ForbiddenError = require('../errors/ForbiddenError');
 
 const getMovies = (request, response, next) => Movie
-  .find({})
+  .find({ owner: request.user._id })
   .populate('owner')
   .then((movies) => response.send(movies))
   .catch(next);
